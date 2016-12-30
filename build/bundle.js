@@ -21524,9 +21524,102 @@
 
 /***/ },
 /* 178 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ChatRoom = function (_Component) {
+	  _inherits(ChatRoom, _Component);
+	
+	  function ChatRoom(props, context) {
+	    _classCallCheck(this, ChatRoom);
+	
+	    var _this = _possibleConstructorReturn(this, (ChatRoom.__proto__ || Object.getPrototypeOf(ChatRoom)).call(this, props, context));
+	
+	    _this.updateMessage = _this.updateMessage.bind(_this);
+	    _this.submitMessage = _this.submitMessage.bind(_this);
+	    _this.state = _defineProperty({
+	      messages: ''
+	    }, 'messages', [{ id: 0, text: 'first message' }, { id: 1, text: 'second message' }, { id: 2, text: 'third message' }]);
+	    return _this;
+	  }
+	
+	  // event -- where the function is coming from (target)
+	  // now capturing letters
+	
+	
+	  _createClass(ChatRoom, [{
+	    key: 'updateMessage',
+	    value: function updateMessage(event) {
+	      // console.log('updateMessage: ' +event.target.value)
+	      this.setState({
+	        message: event.target.value
+	      });
+	    }
+	  }, {
+	    key: 'submitMessage',
+	    value: function submitMessage(event) {
+	      console.log('submitMessage: ' + this.state.message);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      // looping through messages array inside the state and returning a list item for each one
+	      // the message itself is being passed in to the map function
+	      // and rendering the text of the message inside the list item.
+	      // This will concatinate the variable 'current message' to all three list item or how many you have
+	      // currentMessage -- list item for all three
+	      var currentMessage = this.state.messages.map(function (message, i) {
+	        return _react2.default.createElement(
+	          'li',
+	          { key: message.id },
+	          message.text
+	        );
+	      });
+	
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'ol',
+	          null,
+	          currentMessage
+	        ),
+	        _react2.default.createElement('input', { onChange: this.updateMessage, type: 'text', placeholder: 'Message' }),
+	        _react2.default.createElement('br', null),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.submitMessage },
+	          'Submit Message'
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return ChatRoom;
+	}(_react.Component);
+	
+	exports.default = ChatRoom;
 
 /***/ }
 /******/ ]);
