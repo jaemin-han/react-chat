@@ -21560,15 +21560,40 @@
 	    _this.submitMessage = _this.submitMessage.bind(_this);
 	    _this.state = _defineProperty({
 	      messages: ''
-	    }, 'messages', [{ id: 0, text: 'first message' }, { id: 1, text: 'second message' }, { id: 2, text: 'third message' }]);
+	    }, 'messages', [
+	      // {id:0, text: 'first message'},
+	      // {id:1, text: 'second message'},
+	      // {id:2, text: 'third message'}
+	    ]);
 	    return _this;
 	  }
 	
-	  // event -- where the function is coming from (target)
-	  // now capturing letters
+	  //Life Cycle method -- called by the system not by the user -- whenever the component shows up
+	  // this function will be automatically called
 	
 	
 	  _createClass(ChatRoom, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+	
+	      console.log('componentDidMount');
+	      firebase.database().ref('message/').on('value', function (snapshot) {
+	
+	        var currentMessages = snapshot.val();
+	
+	        if (currentMessages != null) {
+	          _this2.setState({
+	            messages: currentMessages
+	          });
+	        }
+	      });
+	    }
+	
+	    // event -- where the function is coming from (target)
+	    // now capturing letters
+	
+	  }, {
 	    key: 'updateMessage',
 	    value: function updateMessage(event) {
 	      // console.log('updateMessage: ' +event.target.value)
@@ -21580,6 +21605,23 @@
 	    key: 'submitMessage',
 	    value: function submitMessage(event) {
 	      console.log('submitMessage: ' + this.state.message);
+	      // preparing next json message
+	      // capturing id and text from above
+	      var nextMessage = {
+	        id: this.state.messages.length,
+	        text: this.state.message
+	      };
+	
+	      // whenever I call 'setState' -- meaning 'Reload'
+	      // it reacts to change -- rerenders this component
+	      // takes new data and renders the new data --
+	      // React(s) to state changes - calls again (very fast)
+	      // it reloads this component and not the whole DOM
+	      var list = Object.assign([], this.state.messages);
+	      list.push(nextMessage);
+	      this.setState({
+	        messages: list
+	      });
 	    }
 	  }, {
 	    key: 'render',

@@ -9,11 +9,27 @@ class ChatRoom extends Component {
     this.state = {
       messages: '',
       messages: [
-        {id:0, text: 'first message'},
-        {id:1, text: 'second message'},
-        {id:2, text: 'third message'}
+        // {id:0, text: 'first message'},
+        // {id:1, text: 'second message'},
+        // {id:2, text: 'third message'}
       ]
     }
+  }
+
+  //Life Cycle method -- called by the system not by the user -- whenever the component shows up
+  // this function will be automatically called
+  componentDidMount(){
+    console.log('componentDidMount')
+    firebase.database().ref('message/').on('value', (snapshot) => {
+
+      const currentMessages = snapshot.val()
+
+      if (currentMessages != null){
+        this.setState({
+          messages: currentMessages
+        })
+      }
+    })
   }
 
   // event -- where the function is coming from (target)
@@ -27,6 +43,24 @@ class ChatRoom extends Component {
 
   submitMessage(event){
     console.log('submitMessage: '+this.state.message)
+    // preparing next json message
+    // capturing id and text from above
+    const nextMessage = {
+      id: this.state.messages.length,
+      text: this.state.message
+    }
+
+    // whenever I call 'setState' -- meaning 'Reload'
+    // it reacts to change -- rerenders this component
+    // takes new data and renders the new data --
+    // React(s) to state changes - calls again (very fast)
+    // it reloads this component and not the whole DOM
+    var list = Object.assign([], this.state.messages)
+    list.push(nextMessage)
+    this.setState({
+      messages: list
+    })
+
   }
 
   render(){
