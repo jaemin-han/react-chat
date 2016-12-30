@@ -21570,6 +21570,7 @@
 	
 	  //Life Cycle method -- called by the system not by the user -- whenever the component shows up
 	  // this function will be automatically called
+	  // if change on backend -- change update
 	
 	
 	  _createClass(ChatRoom, [{
@@ -21617,11 +21618,16 @@
 	      // takes new data and renders the new data --
 	      // React(s) to state changes - calls again (very fast)
 	      // it reloads this component and not the whole DOM
+	
+	      // (this is to state)
 	      var list = Object.assign([], this.state.messages);
 	      list.push(nextMessage);
 	      this.setState({
 	        messages: list
 	      });
+	
+	      // (sends message to firebase - account)
+	      // firebase.database().ref('messages/'+nextMessage.id).set(nextMessage)
 	    }
 	  }, {
 	    key: 'render',
